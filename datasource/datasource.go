@@ -1,5 +1,5 @@
 package datasource
 
 type DataSource interface {
-	Value(key string) (interface{}, error)
+	Value(key string) (string, error)
 }
