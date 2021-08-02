@@ -7,7 +7,7 @@ import (
 
 // DataStore acts as a very fast key value store and acts as a wrapper for Database and DistributedCache
 type DataStore struct {
-	mu   *sync.Mutex
+	mu   *sync.RWMutex
 	data map[string]string
 	db   *Database
 	dc   *DistributedCache
@@ -15,7 +15,7 @@ type DataStore struct {
 
 func NewDataStore(db Database, dc DistributedCache) DataStore {
 	return DataStore{
-		mu:   &sync.Mutex{},
+		mu:   &sync.RWMutex{},
 		data: make(map[string]string),
 		db:   &db,
 		dc:   &dc,
@@ -25,9 +25,9 @@ func NewDataStore(db Database, dc DistributedCache) DataStore {
 // Value returns a value in max 500ms
 func (ds *DataStore) Value(key string) (string, error) {
 	// Initially check instant local data store
-	ds.mu.Lock()
+	ds.mu.RLock()
 	value, found := ds.data[key]
-	ds.mu.Unlock()
+	ds.mu.RUnlock()
 	if found {
 		return value, nil
 	}
