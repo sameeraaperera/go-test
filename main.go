@@ -34,7 +34,7 @@ func getPopulatedDB() datasource.Database {
 }
 
 func makeRandomRequests(wg *sync.WaitGroup, ds datasource.DataStore, id, count int) {
-	fmt.Printf("Worker %v: Started\n", id)
+	//fmt.Printf("Worker %v: Started\n", id)
 	defer wg.Done()
 	for i := 0; i < 50; i++ {
 		randKey := getRandKey()
@@ -43,14 +43,14 @@ func makeRandomRequests(wg *sync.WaitGroup, ds datasource.DataStore, id, count i
 		elapsed := time.Since(start)
 		fmt.Printf("RoutineID:%d [%d] Request %q time: %s\n", id, i, randKey, elapsed)
 	}
-	fmt.Printf("Worker %v: Finished\n", id)
+	//fmt.Printf("Worker %v: Finished\n", id)
 }
 
 func getRandKey() string {
 	rand.Seed(time.Now().UnixNano())
 	min := 0
-	max := 11
+	max := 10
 	randI := rand.Intn(max-min) + min
-	//randI = 10//// //TODO
+	//randI = 2 //////TODO
 	return fmt.Sprintf("key%d", randI)
 }
