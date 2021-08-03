@@ -13,6 +13,7 @@ type DataStore struct {
 	dc   *DistributedCache
 }
 
+// NewDataStore initialises a new DataStore object
 func NewDataStore(db Database, dc DistributedCache) DataStore {
 	return DataStore{
 		mu:   &sync.RWMutex{},

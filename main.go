@@ -2,28 +2,32 @@ package main
 
 import (
 	"fmt"
-	"github.com/sap4001/nearmap-go/datasource"
 	"math/rand"
 	"sync"
 	"time"
+
+	"github.com/sap4001/nearmap-go/datasource"
 )
 
 func main() {
-	db := getPopulatedDB()
-	dc := datasource.NewDistributedCache()
-	ds := datasource.NewDataStore(db, dc)
-
+	ds := initDataStore()
 	var wg sync.WaitGroup
+
 	for i := 0; i < 10; i++ {
 		wg.Add(1)
-		go makeRandomRequests(&wg, ds, i+1, 50)
+		go RandomRequestWorker(&wg, ds, i+1, 50)
 	}
-	fmt.Println("Main: Waiting for workers to finish")
 	wg.Wait()
-	fmt.Println("Main: Completed")
+	fmt.Println("End of Main.")
 }
 
-func getPopulatedDB() datasource.Database {
+func initDataStore() datasource.DataStore {
+	db := initPopulatedDB()
+	dc := datasource.NewDistributedCache()
+	return datasource.NewDataStore(db, dc)
+}
+
+func initPopulatedDB() datasource.Database {
 	db := datasource.NewDatabase()
 	for i := 0; i < 10; i++ {
 		key := fmt.Sprintf("key%d", i)
@@ -33,17 +37,15 @@ func getPopulatedDB() datasource.Database {
 	return db
 }
 
-func makeRandomRequests(wg *sync.WaitGroup, ds datasource.DataStore, id, count int) {
-	//fmt.Printf("Worker %v: Started\n", id)
+func RandomRequestWorker(wg *sync.WaitGroup, ds datasource.DataStore, id, count int) {
 	defer wg.Done()
-	for i := 0; i < 50; i++ {
+	for i := 0; i < count; i++ {
 		randKey := getRandKey()
 		start := time.Now()
 		ds.Value(randKey)
 		elapsed := time.Since(start)
 		fmt.Printf("RoutineID:%d [%d] Request %q time: %s\n", id, i, randKey, elapsed)
 	}
-	//fmt.Printf("Worker %v: Finished\n", id)
 }
 
 func getRandKey() string {
@@ -51,6 +53,5 @@ func getRandKey() string {
 	min := 0
 	max := 10
 	randI := rand.Intn(max-min) + min
-	//randI = 2 //////TODO
 	return fmt.Sprintf("key%d", randI)
 }

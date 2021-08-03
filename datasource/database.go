@@ -20,7 +20,7 @@ func NewDatabase() Database {
 	}
 }
 
-// Value returns a value in DB in 500ms
+// Value returns a value from DB
 func (db *Database) Value(key string) (string, error) {
 	// simulate 500ms roundtrip to the distributed cache
 	time.Sleep(500 * time.Millisecond)
@@ -34,7 +34,7 @@ func (db *Database) Value(key string) (string, error) {
 	return val, nil
 }
 
-// Store saves a value in DB in 500ms
+// Store saves a value in DB
 func (db *Database) Store(key string, value string) error {
 	// simulate 500ms roundtrip to the distributed cache
 	time.Sleep(500 * time.Millisecond)
