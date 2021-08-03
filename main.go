@@ -21,6 +21,17 @@ func main() {
 	fmt.Println("End of Main.")
 }
 
+func RandomRequestWorker(wg *sync.WaitGroup, ds datasource.DataStore, id, count int) {
+	defer wg.Done()
+	for i := 0; i < count; i++ {
+		randKey := getRandKey()
+		start := time.Now()
+		ds.Value(randKey)
+		elapsed := time.Since(start)
+		fmt.Printf("RoutineID:%d [%d] Request %q time: %s\n", id, i, randKey, elapsed)
+	}
+}
+
 func initDataStore() datasource.DataStore {
 	db := initPopulatedDB()
 	dc := datasource.NewDistributedCache()
@@ -35,17 +46,6 @@ func initPopulatedDB() datasource.Database {
 		db.Store(key, value)
 	}
 	return db
-}
-
-func RandomRequestWorker(wg *sync.WaitGroup, ds datasource.DataStore, id, count int) {
-	defer wg.Done()
-	for i := 0; i < count; i++ {
-		randKey := getRandKey()
-		start := time.Now()
-		ds.Value(randKey)
-		elapsed := time.Since(start)
-		fmt.Printf("RoutineID:%d [%d] Request %q time: %s\n", id, i, randKey, elapsed)
-	}
 }
 
 func getRandKey() string {
