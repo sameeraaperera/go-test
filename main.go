@@ -28,7 +28,7 @@ func RandomRequestWorker(wg *sync.WaitGroup, ds datasource.DataStore, id, count 
 		start := time.Now()
 		ds.Value(randKey)
 		elapsed := time.Since(start)
-		fmt.Printf("Routine :%d [%d] Request %q time: %s\n", id, i, randKey, elapsed)
+		fmt.Printf("RoutineE:%d [%d] Request %q time: %s\n", id, i, randKey, elapsed)
 	}
 }
 
