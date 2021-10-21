@@ -4,7 +4,7 @@ Welcome to the [nearmap.com](nearmap.com) Go test. The purpose of this assignmen
 
 ## Background
 
-The source code that you are given is a very simple imitation of a key/value store:
+The source code that you are given is a very simple imitation of a key/value store: 
 
 * `Database` is the central store that takes a while (500ms) to store and retrieve data.
 * `DistributedCache` represents a distributed cache that takes much less time to turn around (100ms to store or retrieve).
