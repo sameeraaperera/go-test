@@ -1,6 +1,6 @@
-# nearmap.com Go Test
+# Go Test
 
-Welcome to the [nearmap.com](nearmap.com) Go test. The purpose of this assignment is to test your familiarity with Go, distributed systems concepts, performance benchmarking and TDD.
+The purpose of this assignment is to test your familiarity with Go, distributed systems concepts, performance benchmarking and TDD.
 
 ## Background
 
@@ -62,8 +62,3 @@ Complete `main()` to test your `DataSource` implementation; it must:
     [2] Request 'key2', response 'value2', time: 50.05 ms
 </pre>
 * Write a benchmark that measures the average run time of these goroutines performing the requests above.
-
-## Submission instructions
-
-* **DO NOT** fork this repository or create pull requests on it as we don't want other candidates to see your solution.
-* Provide your solution as a `.zip` or .`gz` archive file, either via email or some Dropbox-like service, to your Nearmap contact.
